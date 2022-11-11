@@ -12,6 +12,12 @@ const LayoutPublic = () => {
         <main className="container mx-auto mt-12 gap-10 p-5 items-center">
           <Outlet/>
         </main>
+
+
+        <footer className="fooster">
+            <p>Ivan Castro Ruiz Freelancer</p>
+        </footer>
+
     </div>
   )
 }
