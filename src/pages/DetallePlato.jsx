@@ -6,7 +6,6 @@ import Spinner from '../components/Spinner';
 import clienteAxios from '../config/axios';
 
 const DetallePlato = () => {
-
     const params = useParams();
     const { id } = params;
     const [ plato, setPlato ] = useState({});

@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, Navigate  } from 'react-router-dom';
+import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2'
 import Spinner from '../components/Spinner';
 import clienteAxios from '../config/axios';
 
 const EditPlato = () => {
+    const { register, handleSubmit } = useForm();
     const params = useParams();
     const { id } = params;
     const [ plato, setPlato ] = useState({});
     const [ spinner, setSpinner ] = useState(true);
-
     const [editado, setEditado ] = useState(false);
 
 
@@ -26,11 +27,11 @@ const EditPlato = () => {
         consultarApi();
     }, []);  
     
-    const uddatePlato = async (id) => {
+    const updatePlato = async (datos) => {
           
         try {
-        
-          const { data } = await clienteAxios.put(`/platos/update/${id}`, plato);  
+
+          const { data } = await clienteAxios.put(`/platos/update/${id}`, datos);  
           setEditado(true);
         } catch (error) {
             console.log(error.message);
@@ -38,8 +39,8 @@ const EditPlato = () => {
         
     };
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();      
+    const onSubmit = async (datos) => {
+
       Swal.fire({
         title: 'Quieres guardar los cambios?',
         showDenyButton: true,
@@ -49,7 +50,15 @@ const EditPlato = () => {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          uddatePlato(id);
+
+          const formData = new FormData();
+          formData.append("id", id);
+          formData.append("image", datos.file[0]);
+          formData.append("nombre", datos.nombre);
+          formData.append("description", datos.description);
+          formData.append("precio", datos.precio);
+
+          updatePlato(formData);
           Swal.fire('Guardado!', '', 'success')
         } else if (result.isDenied) {
           Swal.fire('Los cambios no se guardaron', '', 'info')
@@ -80,7 +89,7 @@ const EditPlato = () => {
                                               <h2 className="text-gray-400 font-black text-6xl text-center">Editar {" "}<span className="text-black">Articulos</span></h2>
                                               <form 
                                                 className="mid-form my-5 lg:w-4/6 mx-auto shadow-xl border rounded-lg p-5"
-                                                onSubmit={handleSubmit}
+                                                onSubmit={handleSubmit(onSubmit)}
                                               >
 
                                                   
@@ -118,6 +127,7 @@ const EditPlato = () => {
                                                           ...plato, 
                                                           [e.target.name] : e.target.value
                                                         })}
+                                                        {...register("nombre")}
                                                       />
                                                   </div>
                                                   <div className="form-group mt-4">
@@ -130,6 +140,7 @@ const EditPlato = () => {
                                                           ...plato, 
                                                           [e.target.name] : e.target.value
                                                         })}
+                                                        {...register("description")}
                                                       >
                                                       </textarea>
                                                   </div>
@@ -147,21 +158,19 @@ const EditPlato = () => {
                                                               ...plato, 
                                                               [e.target.name] : e.target.value
                                                             })}
+                                                            {...register("precio")}
                                                           ></input>
                                                       </div>
                                                   </div>
                                                   <div className="form-group mt-4">
                                                       <label htmlFor="file0" className='font-medium text-xl block'>Imagen</label>
                                                       En construccion
-                                                      {/* <input 
+                                                      <input 
                                                         type="file" 
                                                         name="image" 
                                                         className='text-gray-400' 
-                                                        // onChange={ e => setPlato({
-                                                        //   ...plato, 
-                                                        //   [e.target.name] : e.target.files[0]
-                                                        // })}
-                                                      /> */}
+                                                        {...register("file")}
+                                                      /> 
                                                   </div>
                                                   <div className="form-group mt-4 flex justify-center">
                                                       <input 

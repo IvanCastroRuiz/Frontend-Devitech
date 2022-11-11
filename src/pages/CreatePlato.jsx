@@ -13,25 +13,12 @@ import Alerta from '../components/Alerta';
 
 const CreatePlato = () => {
 
-       
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm();    
+    const [ alerta, setAlerta ] = useState({});  
+    const [ guardado, setGuardado ] = useState(false);
 
-    
-//   const [ nombre, setNombre ] = useState('');  
-//   const [ description, setDescription ] = useState('');  
-//   const [ precio, setPrecio ] = useState('');  
-//   const [ image, setImage ] = useState({});  
-  const [ alerta, setAlerta ] = useState({});  
-  const [ guardado, setGuardado ] = useState(false);
 
-   const onSubmit = async (datos) => {
-    
-    // e.preventDefault();
-
-    // if([nombre, description, precio].includes('')){
-    //     setAlerta({msg: "Hay campos vacios", error: true});
-    //     return;
-    // };
+    const onSubmit = async (datos) => {
 
     setAlerta({});
 
@@ -44,7 +31,7 @@ const CreatePlato = () => {
         formData.append("precio", datos.precio);
 
         const { data } = await clienteAxios.post(`/platos/create`, formData );  
-        console.log(data);
+        // console.log(data);
 
         Swal.fire({
             position: 'top-end',
@@ -71,9 +58,9 @@ const CreatePlato = () => {
             <section id="content" className='p-5 m-auto h-full'>
                 <h2 className="text-gray-400 font-black text-6xl text-center">Crear {" "}<span className="text-black">Platos Tipicos</span></h2>
                 <form 
-                id="form"
-                className="mid-form my-5 lg:w-4/6 mx-auto shadow-xl border rounded-lg p-5"
-                onSubmit={handleSubmit(onSubmit)}
+                    id="form"
+                    className="mid-form my-5 lg:w-4/6 mx-auto shadow-xl border rounded-lg p-5"
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     { msg &&  <Alerta 
                                 alerta={alerta}
@@ -91,17 +78,19 @@ const CreatePlato = () => {
                         // value={nombre}
                         // onChange={ e => setNombre(e.target.value) }
                         {...register("nombre", { required: true })}
+                        required
                         />
                     </div>
                     <div className="form-group mt-4">
                         <label htmlFor="content" className="font-medium text-xl block">Descripcion</label>
                         <textarea 
-                        name="description" 
-                        className='w-full border p-2 focus:outline-none placeholder:text-gray-300 h-52 text-xl' 
-                        placeholder='Descripcion Plato'
-                        // value={description}
-                        // onChange={ e => setDescription(e.target.value) }
-                        {...register("description", { required: true })}
+                            name="description" 
+                            className='w-full border p-2 focus:outline-none placeholder:text-gray-300 h-52 text-xl' 
+                            placeholder='Descripcion Plato'
+                            // value={description}
+                            // onChange={ e => setDescription(e.target.value) }
+                            {...register("description", { required: true })}
+                            required
                         >
 
                         </textarea>
@@ -111,24 +100,24 @@ const CreatePlato = () => {
                         <div className='flex items-center'>
                             <span className='font-bold text-2xl mr-2'>$</span> 
                             <input 
-                            name="precio" 
-                            type="number" 
-                            className='w-full border p-2 focus:outline-none placeholder:text-gray-300 text-xl' 
-                            placeholder='100.00'
-                            // value={precio}
-                            // onChange={ e => setPrecio(e.target.value) }
-                            {...register("precio", { required: true })}
-                        />
+                                name="precio" 
+                                type="number" 
+                                className='w-full border p-2 focus:outline-none placeholder:text-gray-300 text-xl' 
+                                placeholder='100.00'
+                                // value={precio}
+                                // onChange={ e => setPrecio(e.target.value) }
+                                {...register("precio", { required: true })}
+                                required
+                            />
                         </div>
                     </div>
                     <div className="form-group mt-4">
                         <label htmlFor="image" className='font-medium text-xl block '>Imagen</label>
-                        En construccion
                         <input 
-                        type="file" 
-                        name="image" 
-                        className='text-gray-400' 
-                        {...register("file")}
+                            type="file" 
+                            name="image" 
+                            className='text-gray-400' 
+                            {...register("file")}
                         />
                     </div>
                     <div className="form-group mt-4 flex justify-center">
@@ -137,7 +126,7 @@ const CreatePlato = () => {
                 </form>
             </section>
         </div>
-      )
+    )
 }
 
 export default CreatePlato
