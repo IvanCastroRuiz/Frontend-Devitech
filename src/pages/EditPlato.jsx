@@ -61,7 +61,7 @@ const EditPlato = () => {
 
   return (
     <main className='container mx-auto mt-10'>
-       {editado && <Navigate to={`/edit-plato/${_id}`}/>} 
+       {editado && <Navigate to='/'/>} 
        {
           spinner
                     ?
