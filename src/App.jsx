@@ -3,6 +3,7 @@ import {
   Routes, 
   Route 
 } from 'react-router-dom';
+import './assets/css/App.css'
 
 import LayoutPublic from './Layout/LayoutPublic';
 
@@ -16,7 +17,6 @@ function App() {
 
 
   return (
-
     <BrowserRouter>
       <Routes>
             <Route exact path="/" element={<LayoutPublic />}>
@@ -27,8 +27,6 @@ function App() {
             </Route>
       </Routes>  
     </BrowserRouter>
-
-
   )
 }
 
